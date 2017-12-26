@@ -1,5 +1,6 @@
 package com.github.proteanbear.libra.framework;
 
+import org.quartz.JobDataMap;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.config.AutowireCapableBeanFactory;
 
@@ -32,9 +33,8 @@ public abstract class AbstractQuartzJobDispatcher
      * Invoke the specified method by reflection
      *
      * @param jobTaskBean The job config
-     * @param data
      */
-    protected void invokeJobMethod(JobTaskBean jobTaskBean,Object data)
+    protected void invokeJobMethod(JobTaskBean jobTaskBean,JobDataMap jobDataMap)
     {
         //Job class
         Class jobClass=null;
@@ -57,6 +57,26 @@ public abstract class AbstractQuartzJobDispatcher
             //Spring autowire
             getCapableBeanFactory().autowireBean(job);
 
+            //Pass the data
+            Method setMethod=null;
+            Object data=null;
+            for(String field : jobTaskBean.getFieldSetMethodMap().keySet())
+            {
+                //Get the data
+                data=jobDataMap.get(field);
+                if(data==null) continue;
+                setMethod=jobTaskBean.getFieldSetMethodMap().get(field);
+
+                //Set the data
+                try{
+                    setMethod.invoke(job,data);
+                }
+                catch(Exception ex){
+                    ex.printStackTrace();
+                    getLogger().error(ex.getMessage());
+                }
+            }
+
             //Traverse execution of all annotation methods
             Method method=null;
             String methodName=null;
@@ -68,7 +88,7 @@ public abstract class AbstractQuartzJobDispatcher
                 //Invoke method
                 getLogger().info("Start invoke job \""+name+"\"'s method:"+methodName);
                 Date startTime=new Date();
-                method.invoke(job,data);
+                method.invoke(job);
                 getLogger().info("Invoke method "+methodName+" of job "+name+" success.Use time "+calculateRunTime(
                         startTime,new Date()));
             }

@@ -2,6 +2,7 @@ package com.github.proteanbear.libra.framework;
 
 import java.lang.reflect.Method;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Timing task configuration description
@@ -11,21 +12,23 @@ import java.util.List;
 public class JobTaskBean
 {
     //Task name
-    private String       key;
+    private String             key;
     //Task display name
-    private String       title;
+    private String             title;
     //Task group
-    private String       group;
+    private String             group;
     //Task description
-    private String       description;
+    private String             description;
     //Task class
-    private Class        taskClass;
+    private Class              taskClass;
     //Task execution method list
-    private List<Method> methodList;
+    private List<Method>       methodList;
+    //Task field set method map
+    private Map<String,Method> fieldSetMethodMap;
     //Is concurrent?
     //When is true,stateful tasks can not be executed concurrently.
     //When is false,stateless tasks can execute concurrently.
-    private boolean      concurrent;
+    private boolean            concurrent;
 
     /**
      * Constructor
@@ -57,7 +60,6 @@ public class JobTaskBean
                 ", group='"+group+'\''+
                 ", description='"+description+'\''+
                 ", taskClass="+taskClass+
-                ", methodList="+methodList+
                 ", concurrent="+concurrent+
                 '}';
     }
@@ -130,5 +132,15 @@ public class JobTaskBean
     public void setConcurrent(boolean concurrent)
     {
         this.concurrent=concurrent;
+    }
+
+    public Map<String,Method> getFieldSetMethodMap()
+    {
+        return fieldSetMethodMap;
+    }
+
+    public void setFieldSetMethodMap(Map<String,Method> fieldSetMethodMap)
+    {
+        this.fieldSetMethodMap=fieldSetMethodMap;
     }
 }

@@ -63,9 +63,8 @@ public class QuartzJobDispatcherDisallow extends AbstractQuartzJobDispatcher imp
     {
         //Get recorded task configuration information
         JobTaskBean jobTaskBean=(JobTaskBean)context.getMergedJobDataMap().get(LibraKey.CONFIG);
-        Object data=context.getMergedJobDataMap().get(LibraKey.DATA);
 
         //Execute the method specified by the configuration information
-        invokeJobMethod(jobTaskBean,data);
+        invokeJobMethod(jobTaskBean,context.getMergedJobDataMap());
     }
 }
