@@ -106,9 +106,6 @@ public class ScheduleJobUtils
             scheduler.deleteJob(JobKey.jobKey(name,group));
         }
 
-        //Task is disabled, exit
-        if(status==0) return;
-
         //Create a task
         Class jobClass=concurrent?QuartzJobDispatcherDisallow.class:QuartzJobDispatcher.class;
         JobDetail jobDetail=JobBuilder.newJob(jobClass)
@@ -125,6 +122,9 @@ public class ScheduleJobUtils
         //Add tasks to the schedule
         scheduler.scheduleJob(jobDetail,trigger);
         logger.info("Add job task(name:"+name+",group:"+group+")");
+
+        //Task is disabled, pause the job
+        if(status==0) pauseJob(jobConfig.getTaskId(),jobConfig.getTaskKey());
     }
 
     /**
