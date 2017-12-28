@@ -81,7 +81,6 @@
             <groupId>org.quartz-scheduler</groupId>
             <artifactId>quartz</artifactId>
             <version>${version_quartz}</version>
-            <scope>Provided</scope>
         </dependency>
 
         <!-- Spring -->
@@ -106,6 +105,12 @@
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-beans</artifactId>
+            <version>${version_spring}</version>
+            <scope>Provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-tx</artifactId>
             <version>${version_spring}</version>
             <scope>Provided</scope>
         </dependency>
