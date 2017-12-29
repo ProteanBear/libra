@@ -60,7 +60,7 @@ public class QuartzJobDispatcher extends AbstractQuartzJobDispatcher implements 
     public void execute(JobExecutionContext context) throws JobExecutionException
     {
         //Get recorded task configuration information
-        JobTaskBean jobTaskBean=(JobTaskBean)context.getMergedJobDataMap().get(LibraKey.CONFIG);
+        JobTaskBean jobTaskBean=(JobTaskBean)context.getMergedJobDataMap().get(LibraKey.CONFIG.toString());
 
         //Execute the method specified by the configuration information
         invokeJobMethod(jobTaskBean,context.getMergedJobDataMap());
