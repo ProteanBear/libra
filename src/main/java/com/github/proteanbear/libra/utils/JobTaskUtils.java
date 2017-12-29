@@ -219,7 +219,7 @@ public class JobTaskUtils implements ApplicationContextAware
                 //Saved name
                 String name=(StringUtils.isBlank(jobTaskData.value())?curField.getName():jobTaskData.value());
                 //Get Field set method name
-                String setMethodName="set"+name.substring(0,1).toUpperCase()+name.substring(1);
+                String setMethodName="set"+curField.getName().substring(0,1).toUpperCase()+curField.getName().substring(1);
 
                 //Get set method
                 Method setMethod=null;
