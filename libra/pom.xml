@@ -3,10 +3,6 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <packaging>pom</packaging>
-    <modules>
-        <module>../libra-test-maven-configuration</module>
-    </modules>
 
     <!-- Custom Properties -->
     <properties>
@@ -36,7 +32,7 @@
     <!-- For Maven -->
     <name>${project.groupId}:${project.artifactId}</name>
     <url>${developer_url}/${developer_name}/${project.artifactId}</url>
-    <description>...</description>
+    <description>Libra is a Quartz-based dynamic task engine.It helps to achieve through the database or Redis configuration content to create the task needs, and support Spring dependency injection.</description>
 
     <!-- License -->
     <licenses>
