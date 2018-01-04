@@ -50,6 +50,7 @@
             <roles>
                 <role>developer</role>
             </roles>
+            <timezone>+8</timezone>
         </developer>
     </developers>
 
@@ -88,31 +89,31 @@
             <groupId>org.springframework</groupId>
             <artifactId>spring-core</artifactId>
             <version>${version_spring}</version>
-            <scope>Provided</scope>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-context-support</artifactId>
             <version>${version_spring}</version>
-            <scope>Provided</scope>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-context</artifactId>
             <version>${version_spring}</version>
-            <scope>Provided</scope>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-beans</artifactId>
             <version>${version_spring}</version>
-            <scope>Provided</scope>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-tx</artifactId>
             <version>${version_spring}</version>
-            <scope>Provided</scope>
+            <scope>provided</scope>
         </dependency>
 
         <!-- Log -->
@@ -120,7 +121,7 @@
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
             <version>1.7.25</version>
-            <scope>Provided</scope>
+            <scope>provided</scope>
         </dependency>
 
         <!-- Test -->
@@ -138,6 +139,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
+                <version>${version_maven_complier}</version>
                 <configuration>
                     <source>${version_jdk}</source>
                     <target>${version_jdk}</target>
