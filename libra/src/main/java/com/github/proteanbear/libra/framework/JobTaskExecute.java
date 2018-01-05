@@ -7,7 +7,7 @@ import java.lang.annotation.Target;
 
 /**
  * A custom annotation that identifies the execution method in the task class
- * component of the exchange platform<br/>
+ * component of the exchange platform
  *
  * @author ProteanBear
  */

@@ -24,8 +24,8 @@ public class LibraQuartzConfiguration
     /**
      * Load the configuration
      *
-     * @return
-     * @throws IOException
+     * @return the configuration properties
+     * @throws IOException The properties set is error.
      */
     @Bean
     public Properties quartzProperties() throws IOException
@@ -39,8 +39,8 @@ public class LibraQuartzConfiguration
     /**
      * With a custom JobFactory, you can inject a Spring-related job into your job.
      *
-     * @param applicationContext
-     * @return
+     * @param applicationContext the application context
+     * @return the job factory
      */
     @Bean
     public JobFactory jobFactory(ApplicationContext applicationContext)
@@ -51,9 +51,9 @@ public class LibraQuartzConfiguration
     /**
      * Task scheduling factory
      *
-     * @param jobFactory
-     * @return
-     * @throws IOException
+     * @param jobFactory the job factory
+     * @return the scheduler factory
+     * @throws IOException The properties set is error.
      */
     @Bean
     public SchedulerFactoryBean schedulerFactoryBean(JobFactory jobFactory)
@@ -78,8 +78,8 @@ public class LibraQuartzConfiguration
     /**
      * Custom task annotation management tools
      *
-     * @param applicationContext
-     * @return
+     * @param applicationContext the application context
+     * @return the tools used Spring to get a full class of custom annotations
      */
     public JobTaskUtils jobTaskUtils(ApplicationContext applicationContext)
     {

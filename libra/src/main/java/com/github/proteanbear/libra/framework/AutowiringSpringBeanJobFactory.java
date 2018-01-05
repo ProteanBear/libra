@@ -21,9 +21,9 @@ public class AutowiringSpringBeanJobFactory extends AdaptableJobFactory
     /**
      * Create a Job instance, add Spring injection
      *
-     * @param bundle
+     * @param bundle A simple class (structure) used for returning execution-time data from the JobStore to the QuartzSchedulerThread
      * @return Job instance
-     * @throws Exception
+     * @throws Exception throw from createJobInstance
      */
     @Override
     protected Object createJobInstance(TriggerFiredBundle bundle) throws Exception

@@ -33,6 +33,7 @@ public abstract class AbstractQuartzJobDispatcher
      * Invoke the specified method by reflection
      *
      * @param jobTaskBean The job config
+     * @param jobDataMap the job data
      */
     protected void invokeJobMethod(JobTaskBean jobTaskBean,JobDataMap jobDataMap)
     {
@@ -68,10 +69,12 @@ public abstract class AbstractQuartzJobDispatcher
                 setMethod=jobTaskBean.getFieldSetMethodMap().get(field);
 
                 //Set the data
-                try{
+                try
+                {
                     setMethod.invoke(job,data);
                 }
-                catch(Exception ex){
+                catch(Exception ex)
+                {
                     ex.printStackTrace();
                     getLogger().error(ex.getMessage());
                 }

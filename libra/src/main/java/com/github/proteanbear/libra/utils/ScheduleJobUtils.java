@@ -39,7 +39,7 @@ public class ScheduleJobUtils
     /**
      * Get all the tasks
      *
-     * @return Map for taskKey->JobTaskBean.
+     * @return Map for taskKey to JobTaskBean.
      */
     public final Map<String,JobTaskBean> jobTaskBeanMap()
     {
@@ -50,7 +50,7 @@ public class ScheduleJobUtils
      * Obtain work tasks, use string matching filter.
      *
      * @param pattern The matching filter.
-     * @return
+     * @return the work tasks
      */
     public final Map<String,JobTaskBean> jobTaskBeanMap(String pattern)
     {
@@ -74,6 +74,7 @@ public class ScheduleJobUtils
      * Add a job by configuration object.
      *
      * @param jobConfig The configuration object.
+     * @throws SchedulerException the exception
      */
     public final void set(TaskConfigBean jobConfig) throws SchedulerException
     {
@@ -132,7 +133,7 @@ public class ScheduleJobUtils
      *
      * @param taskId  The configuration id
      * @param taskKey The task key
-     * @throws SchedulerException
+     * @throws SchedulerException the exception
      */
     public final void pauseJob(String taskId,String taskKey) throws SchedulerException
     {
@@ -147,7 +148,7 @@ public class ScheduleJobUtils
      *
      * @param taskId  The configuration id
      * @param taskKey The task key
-     * @throws SchedulerException
+     * @throws SchedulerException the exception
      */
     public final void resumeJob(String taskId,String taskKey) throws SchedulerException
     {
@@ -162,7 +163,7 @@ public class ScheduleJobUtils
      *
      * @param taskId  The configuration id
      * @param taskKey The task key
-     * @throws SchedulerException
+     * @throws SchedulerException the exception
      */
     public final void deleteJob(String taskId,String taskKey) throws SchedulerException
     {
@@ -177,7 +178,7 @@ public class ScheduleJobUtils
      *
      * @param taskId  The configuration id
      * @param taskKey The task key
-     * @throws SchedulerException
+     * @throws SchedulerException the exception
      */
     public final void runAJobNow(String taskId,String taskKey) throws SchedulerException
     {
@@ -193,7 +194,7 @@ public class ScheduleJobUtils
      * @param taskId  The configuration id
      * @param taskKey The task key
      * @param cron    The cron timing expression
-     * @throws SchedulerException
+     * @throws SchedulerException the exception
      */
     public final void updateJobCron(String taskId,String taskKey,String cron) throws SchedulerException
     {
@@ -230,8 +231,8 @@ public class ScheduleJobUtils
      *
      * @param taskId  The configuration id
      * @param taskKey The task key
-     * @return
-     * @throws SchedulerException
+     * @return the job key
+     * @throws SchedulerException the exception
      */
     private final JobKey jobKey(String taskId,String taskKey) throws SchedulerException
     {
@@ -250,7 +251,7 @@ public class ScheduleJobUtils
      *
      * @param taskId  The configuration id
      * @param taskKey The task key
-     * @throws SchedulerException
+     * @throws SchedulerException the exception
      */
     private final TriggerKey triggerKey(String taskId,String taskKey) throws SchedulerException
     {

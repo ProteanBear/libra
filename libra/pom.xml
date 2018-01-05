@@ -17,7 +17,7 @@
         <version_maven_complier>3.7.0</version_maven_complier>
         <version_maven_gpg>1.6</version_maven_gpg>
         <version_maven_source>3.0.1</version_maven_source>
-        <version_maven_javadoc>3.0.0.M1</version_maven_javadoc>
+        <version_maven_javadoc>3.0.0</version_maven_javadoc>
 
         <!-- Add -->
         <version_quartz>2.3.0</version_quartz>

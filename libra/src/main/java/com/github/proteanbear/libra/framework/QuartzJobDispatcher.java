@@ -53,8 +53,8 @@ public class QuartzJobDispatcher extends AbstractQuartzJobDispatcher implements 
     /**
      * Actuator
      *
-     * @param context
-     * @throws JobExecutionException
+     * @param context the job execution context
+     * @throws JobExecutionException the exception
      */
     @Override
     public void execute(JobExecutionContext context) throws JobExecutionException

@@ -17,8 +17,8 @@ import java.lang.reflect.Method;
 import java.util.*;
 
 /**
- * Use Spring to get a full class of custom annotations.<br/>
- * Singleton patterns.
+ * <p>Use Spring to get a full class of custom annotations.</p>
+ * <p>Singleton patterns.</p>
  *
  * @author ProteanBear
  */
@@ -44,8 +44,8 @@ public class JobTaskUtils implements ApplicationContextAware
     /**
      * Spring injection.
      *
-     * @param applicationContext
-     * @throws BeansException
+     * @param applicationContext the application context
+     * @throws BeansException the exception
      */
     @Override
     public void setApplicationContext(ApplicationContext applicationContext) throws BeansException
@@ -57,7 +57,7 @@ public class JobTaskUtils implements ApplicationContextAware
      * Gets all the task classes displayed by the group.
      *
      * @param notGroup Remove the specified group, not empty when empty.
-     * @return
+     * @return all the task classes displayed by the group
      */
     public final Map<String,Map<String,JobTaskBean>> getJobTaskMapGroup(String notGroup)
     {
@@ -107,7 +107,7 @@ public class JobTaskUtils implements ApplicationContextAware
     /**
      * Get all the tasks.
      *
-     * @return
+     * @return all the tasks
      */
     public final Map<String,JobTaskBean> getJobTaskMap()
     {
@@ -118,7 +118,8 @@ public class JobTaskUtils implements ApplicationContextAware
     /**
      * Get all the tasks (remove a group).
      *
-     * @return
+     * @param notGroup exclude the group's key
+     * @return all the tasks exclude the given group
      */
     public final Map<String,JobTaskBean> getJobTaskMapNotGroup(String notGroup)
     {
@@ -147,7 +148,7 @@ public class JobTaskUtils implements ApplicationContextAware
      * Get the specified task.
      *
      * @param key The task key.
-     * @return
+     * @return the task
      */
     public final JobTaskBean getJobTask(String key)
     {
