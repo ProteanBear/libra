@@ -1,6 +1,7 @@
 package com.github.proteanbear.libra.framework;
 
 import java.lang.reflect.Method;
+import java.net.URL;
 import java.util.List;
 import java.util.Map;
 
@@ -29,6 +30,8 @@ public class JobTaskBean
     //When is true,stateful tasks can not be executed concurrently.
     //When is false,stateless tasks can execute concurrently.
     private boolean            concurrent;
+    //If task class is from jar package,store it's url
+    private URL                jarClassUrl;
 
     /**
      * Constructor
@@ -142,5 +145,15 @@ public class JobTaskBean
     public void setFieldSetMethodMap(Map<String,Method> fieldSetMethodMap)
     {
         this.fieldSetMethodMap=fieldSetMethodMap;
+    }
+
+    public URL getJarClassUrl()
+    {
+        return jarClassUrl;
+    }
+
+    public void setJarClassUrl(URL jarClassUrl)
+    {
+        this.jarClassUrl=jarClassUrl;
     }
 }

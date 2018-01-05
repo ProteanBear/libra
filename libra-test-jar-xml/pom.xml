@@ -7,6 +7,7 @@
     <!-- Custom Properties -->
     <properties>
         <!-- Add -->
+        <version_quartz>2.3.0</version_quartz>
         <version_spring>5.0.0.RELEASE</version_spring>
     </properties>
 
@@ -35,6 +36,13 @@
 
     <!-- dependencies -->
     <dependencies>
+        <!-- quartz -->
+        <dependency>
+            <groupId>org.quartz-scheduler</groupId>
+            <artifactId>quartz</artifactId>
+            <version>${version_quartz}</version>
+        </dependency>
+
         <!-- Spring -->
         <dependency>
             <groupId>org.springframework</groupId>

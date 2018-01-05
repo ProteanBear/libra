@@ -14,6 +14,7 @@ import org.springframework.stereotype.Component;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.net.URL;
 import java.util.*;
 
 /**
@@ -123,8 +124,8 @@ public class JobTaskUtils implements ApplicationContextAware
      */
     public final Map<String,JobTaskBean> getJobTaskMapNotGroup(String notGroup)
     {
-        if(jobTaskMap==null)                init();
-        if(StringUtils.isBlank(notGroup))   return jobTaskMap;
+        if(jobTaskMap==null) init();
+        if(StringUtils.isBlank(notGroup)) return jobTaskMap;
 
         Map<String,JobTaskBean> result=new HashMap<>(jobTaskMap);
         List<String> removeKeys=new ArrayList<>();
@@ -211,7 +212,7 @@ public class JobTaskUtils implements ApplicationContextAware
             //Get field annotation @JobTaskData
             curFields=curClass.getDeclaredFields();
             Map<String,Method> fieldSetMethodMap=new HashMap<>();
-            for(int i=0,length=curFields.length;i<length;i++)
+            for(int i=0, length=curFields.length;i<length;i++)
             {
                 Field curField=curFields[i];
                 jobTaskData=curField.getAnnotation(JobTaskData.class);
@@ -220,7 +221,8 @@ public class JobTaskUtils implements ApplicationContextAware
                 //Saved name
                 String name=(StringUtils.isBlank(jobTaskData.value())?curField.getName():jobTaskData.value());
                 //Get Field set method name
-                String setMethodName="set"+curField.getName().substring(0,1).toUpperCase()+curField.getName().substring(1);
+                String setMethodName="set"+curField.getName().substring(0,1).toUpperCase()+curField.getName()
+                        .substring(1);
 
                 //Get set method
                 Method setMethod=null;
@@ -251,6 +253,8 @@ public class JobTaskUtils implements ApplicationContextAware
             jobTaskBean.setMethodList(methodList);
             //Set all field set method
             jobTaskBean.setFieldSetMethodMap(fieldSetMethodMap);
+            //Set is jar class url
+            jobTaskBean.setJarClassUrl(jarClassUrl(curClass));
 
             //Record
             jobTaskMap.put(key,jobTaskBean);
@@ -275,5 +279,17 @@ public class JobTaskUtils implements ApplicationContextAware
         String firstLowerChar=className.substring(0,1).toLowerCase();
         className=firstLowerChar+className.substring(1);
         return className;
+    }
+
+    /**
+     * If class from the jar package,return the url.Other,return null.
+     *
+     * @param clazz Class information
+     * @return If class from the jar package,return the url.Other,return null.
+     */
+    private static URL jarClassUrl(Class<?> clazz)
+    {
+        URL result=clazz.getResource(clazz.getSimpleName()+".class");
+        return result.toString().startsWith("jar:")?result:null;
     }
 }

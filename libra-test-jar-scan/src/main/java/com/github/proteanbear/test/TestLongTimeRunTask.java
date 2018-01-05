@@ -52,7 +52,7 @@ public class TestLongTimeRunTask
      * hello
      */
     @Autowired
-    private TaskService service;
+    private HelloService service;
 
     /**
      * Test task execute method.
