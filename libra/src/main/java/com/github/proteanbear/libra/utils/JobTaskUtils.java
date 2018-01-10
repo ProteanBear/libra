@@ -12,7 +12,10 @@ import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
+import java.io.File;
+import java.io.IOException;
 import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.net.URL;
 import java.util.*;
@@ -33,6 +36,34 @@ public class JobTaskUtils implements ApplicationContextAware
     private static final Logger logger=LoggerFactory.getLogger(JobTaskUtils.class);
 
     /**
+     * If class from the jar package,return the url.Other,return null.
+     *
+     * @param clazz Class information
+     * @return If class from the jar package,return the url.Other,return null.
+     */
+    private static URL jarClassUrl(Class<?> clazz)
+    {
+        URL result=clazz.getResource(clazz.getSimpleName()+".class");
+        return result.toString().startsWith("jar:")?result:null;
+    }
+
+    /**
+     * According to this class to get the default identifier
+     * (default: the first letter is replaced by lowercase)
+     *
+     * @param clazz Class information
+     * @return The default instance name
+     */
+    public static final String getDefaultTaskKey(Class<?> clazz)
+    {
+        if(clazz==null) return null;
+        String className=clazz.getSimpleName();
+        String firstLowerChar=className.substring(0,1).toLowerCase();
+        className=firstLowerChar+className.substring(1);
+        return className;
+    }
+
+    /**
      * Spring application context.
      */
     private ApplicationContext applicationContext;
@@ -41,6 +72,11 @@ public class JobTaskUtils implements ApplicationContextAware
      * Save the current system all the timing tasks.
      */
     private Map<String,JobTaskBean> jobTaskMap;
+
+    /**
+     * Scanning tools for dynamically loading class or jar packages
+     */
+    private ScanUtils scanUtils;
 
     /**
      * Spring injection.
@@ -161,6 +197,39 @@ public class JobTaskUtils implements ApplicationContextAware
     }
 
     /**
+     * Task classes are loaded dynamically from the specified folder or jar package.
+     *
+     * @param directoryOrJarFile the directory or jar file.
+     */
+    public final boolean load(File directoryOrJarFile)
+    {
+        boolean result=false;
+        try
+        {
+            loadJobTaskBeans(scanUtils.scan(directoryOrJarFile));
+            result=true;
+        }
+        catch(ClassNotFoundException e)
+        {
+            e.printStackTrace();
+            logger.error("");
+        }
+        catch(InvocationTargetException e)
+        {
+            e.printStackTrace();
+        }
+        catch(IllegalAccessException e)
+        {
+            e.printStackTrace();
+        }
+        catch(IOException e)
+        {
+            e.printStackTrace();
+        }
+        return result;
+    }
+
+    /**
      * Initialization
      */
     private void init()
@@ -173,11 +242,34 @@ public class JobTaskUtils implements ApplicationContextAware
             return;
         }
 
+        //Build scan tools
+        try
+        {
+            scanUtils=ScanUtils.instance();
+        }
+        catch(NoSuchMethodException e)
+        {
+            logger.error("URLClassLoader have not a method named 'addURL'!");
+        }
+
         //Initialization
         jobTaskMap=(jobTaskMap==null)?(new HashMap<>(20)):jobTaskMap;
 
         //Gets all the classes in the container with @JobTask annotations
         Map<String,Object> jobTaskBeanMap=this.applicationContext.getBeansWithAnnotation(JobTask.class);
+        //Traverse all classes to generate task description records
+        loadJobTaskBeans(jobTaskBeanMap);
+
+        logger.info("Init job task success!");
+    }
+
+    /**
+     * Load jobTaskBeans from map by the annotation
+     *
+     * @param jobTaskBeanMap the class map
+     */
+    private void loadJobTaskBeans(Map<String,Object> jobTaskBeanMap)
+    {
         //Traverse all classes to generate task description records
         JobTask jobTaskAnnotation=null;
         JobTaskData jobTaskData=null;
@@ -190,9 +282,12 @@ public class JobTaskUtils implements ApplicationContextAware
         for(Object object : collection)
         {
             //Get the class
-            Class curClass=object.getClass();
+            Class curClass=(object instanceof Class)
+                    ?((Class)object)
+                    :object.getClass();
             //Get annotation
             jobTaskAnnotation=(JobTask)curClass.getAnnotation(JobTask.class);
+            if(jobTaskAnnotation==null) continue;
 
             //Get method annotation
             curMethods=curClass.getDeclaredMethods();
@@ -261,35 +356,5 @@ public class JobTaskUtils implements ApplicationContextAware
 
             logger.info("Record job task("+key+") for content("+jobTaskBean.toString()+")!");
         }
-
-        logger.info("Init job task success!");
-    }
-
-    /**
-     * According to this class to get the default identifier
-     * (default: the first letter is replaced by lowercase)
-     *
-     * @param clazz Class information
-     * @return The default instance name
-     */
-    public static final String getDefaultTaskKey(Class<?> clazz)
-    {
-        if(clazz==null) return null;
-        String className=clazz.getSimpleName();
-        String firstLowerChar=className.substring(0,1).toLowerCase();
-        className=firstLowerChar+className.substring(1);
-        return className;
-    }
-
-    /**
-     * If class from the jar package,return the url.Other,return null.
-     *
-     * @param clazz Class information
-     * @return If class from the jar package,return the url.Other,return null.
-     */
-    private static URL jarClassUrl(Class<?> clazz)
-    {
-        URL result=clazz.getResource(clazz.getSimpleName()+".class");
-        return result.toString().startsWith("jar:")?result:null;
     }
 }

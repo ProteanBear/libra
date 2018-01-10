@@ -8,7 +8,10 @@ package com.github.proteanbear.libra.framework;
 public enum LibraKey
 {
     //The key of task configuration.
-    CONFIG("JobConfig");
+    CONFIG("JobConfig"),
+    FILE_SUFFIX_CLASS(".class"),
+    FILE_SUFFIX_JAR(".jar")
+    ;
 
     /**
      * The key.
