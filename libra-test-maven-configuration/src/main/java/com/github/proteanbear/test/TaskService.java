@@ -1,14 +1,22 @@
 package com.github.proteanbear.test;
 
 import com.github.proteanbear.libra.framework.TaskConfigBean;
+import com.github.proteanbear.libra.utils.ScanUtils;
 import com.github.proteanbear.libra.utils.ScheduleJobUtils;
 import org.quartz.SchedulerException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.support.DefaultListableBeanFactory;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.ClassPathBeanDefinitionScanner;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
+import java.io.File;
+import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Set;
 
 /**
  * Task initialization.
@@ -23,6 +31,12 @@ public class TaskService
      */
     @Autowired
     private ScheduleJobUtils scheduleJobUtils;
+
+    /**
+     * Dynamic scan tools
+     */
+    @Autowired
+    private ScanUtils scanUtils;
 
     /**
      * Task initialization
@@ -42,23 +56,39 @@ public class TaskService
             put("list","test");
         }});
 
+        //Set jar file directory
+        StringBuilder directory=new StringBuilder();
+        for(int i=0;i<6;i++) directory.append(".."+File.separator);
+        String jarFilePath=this.getClass().getResource(".."+File.separator).getPath()+directory+"jar"+File.separator+"libra-test-jar-scan.jar";
+        File jarFile=new File(jarFilePath);
+        System.out.println(jarFile.getAbsolutePath());
+        assert jarFile.exists():"文件不存在！";
+
         //Set task
         try
         {
+            scanUtils.scan(jarFile);
             scheduleJobUtils.set(config);
         }
         catch(SchedulerException e)
         {
             e.printStackTrace();
         }
-    }
-
-    /**
-     * Task hello
-     * @return
-     */
-    public String hello()
-    {
-        return "Hello,Libra!";
+        catch(IOException e)
+        {
+            e.printStackTrace();
+        }
+        catch(InvocationTargetException e)
+        {
+            e.printStackTrace();
+        }
+        catch(IllegalAccessException e)
+        {
+            e.printStackTrace();
+        }
+        catch(ClassNotFoundException e)
+        {
+            e.printStackTrace();
+        }
     }
 }

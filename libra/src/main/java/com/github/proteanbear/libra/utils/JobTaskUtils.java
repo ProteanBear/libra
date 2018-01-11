@@ -74,11 +74,6 @@ public class JobTaskUtils implements ApplicationContextAware
     private Map<String,JobTaskBean> jobTaskMap;
 
     /**
-     * Scanning tools for dynamically loading class or jar packages
-     */
-    private ScanUtils scanUtils;
-
-    /**
      * Spring injection.
      *
      * @param applicationContext the application context
@@ -197,39 +192,6 @@ public class JobTaskUtils implements ApplicationContextAware
     }
 
     /**
-     * Task classes are loaded dynamically from the specified folder or jar package.
-     *
-     * @param directoryOrJarFile the directory or jar file.
-     */
-    public final boolean load(File directoryOrJarFile)
-    {
-        boolean result=false;
-        try
-        {
-            loadJobTaskBeans(scanUtils.scan(directoryOrJarFile));
-            result=true;
-        }
-        catch(ClassNotFoundException e)
-        {
-            e.printStackTrace();
-            logger.error("");
-        }
-        catch(InvocationTargetException e)
-        {
-            e.printStackTrace();
-        }
-        catch(IllegalAccessException e)
-        {
-            e.printStackTrace();
-        }
-        catch(IOException e)
-        {
-            e.printStackTrace();
-        }
-        return result;
-    }
-
-    /**
      * Initialization
      */
     private void init()
@@ -240,16 +202,6 @@ public class JobTaskUtils implements ApplicationContextAware
         {
             logger.error("ApplicationContext is null!");
             return;
-        }
-
-        //Build scan tools
-        try
-        {
-            scanUtils=ScanUtils.instance();
-        }
-        catch(NoSuchMethodException e)
-        {
-            logger.error("URLClassLoader have not a method named 'addURL'!");
         }
 
         //Initialization
@@ -268,7 +220,7 @@ public class JobTaskUtils implements ApplicationContextAware
      *
      * @param jobTaskBeanMap the class map
      */
-    private void loadJobTaskBeans(Map<String,Object> jobTaskBeanMap)
+    public void loadJobTaskBeans(Map<String,Object> jobTaskBeanMap)
     {
         //Traverse all classes to generate task description records
         JobTask jobTaskAnnotation=null;

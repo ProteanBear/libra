@@ -1,6 +1,13 @@
 package com.github.proteanbear.libra.utils;
 
 import com.github.proteanbear.libra.framework.LibraKey;
+import org.springframework.beans.BeansException;
+import org.springframework.beans.factory.support.DefaultListableBeanFactory;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.ApplicationContextAware;
+import org.springframework.context.annotation.ClassPathBeanDefinitionScanner;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
 
 import java.io.File;
 import java.io.FilenameFilter;
@@ -19,34 +26,14 @@ import java.util.jar.JarFile;
  *
  * @author ProteanBear
  */
-public class ScanUtils
+@Component
+@Scope
+public class ScanUtils implements ApplicationContextAware
 {
     /**
      * Record the package has been loaded.
      */
     private static Set<String> loadedUrlSet=new HashSet<>();
-
-    /**
-     * Create a scan utils object for java
-     *
-     * @return ScanUtils object
-     */
-    public static ScanUtils instance() throws NoSuchMethodException
-    {
-        return new ScanUtils(ClassLoader.getSystemClassLoader(),filenameFilter());
-    }
-
-    /**
-     * Create a scan utils object for java
-     *
-     * @param classLoader the class loader
-     * @return ScanUtils object
-     */
-    public static ScanUtils instance(ClassLoader classLoader) throws NoSuchMethodException
-    {
-        assert classLoader!=null:"The class loader can not be null!";
-        return new ScanUtils(classLoader,filenameFilter());
-    }
 
     /**
      * Create the file name filter.
@@ -89,16 +76,36 @@ public class ScanUtils
     private File rootFile;
 
     /**
-     * Constructor.Set the class loader.
-     *
-     * @param classLoader    The class loader
-     * @param filenameFilter The file name filter
+     * Record the package name loaded.
      */
-    private ScanUtils(ClassLoader classLoader,FilenameFilter filenameFilter) throws NoSuchMethodException
+    private Set<String> loadedPackages;
+
+    /**
+     * Spring application context.
+     */
+    private ApplicationContext applicationContext;
+
+    /**
+     * Spring injection.
+     *
+     * @param applicationContext the application context
+     * @throws BeansException the exception
+     */
+    @Override
+    public void setApplicationContext(ApplicationContext applicationContext) throws BeansException
     {
-        this.classLoader=classLoader;
-        this.filenameFilter=filenameFilter;
+        this.applicationContext=applicationContext;
+    }
+
+    /**
+     * Constructor.Set the class loader.
+     */
+    public ScanUtils() throws NoSuchMethodException
+    {
+        this.classLoader=Thread.currentThread().getContextClassLoader();
+        this.filenameFilter=filenameFilter();
         this.addUrlMethod=URLClassLoader.class.getDeclaredMethod("addURL",URL.class);
+        loadedPackages=new HashSet<>();
     }
 
     /**
@@ -128,6 +135,27 @@ public class ScanUtils
             addUrlMethod.setAccessible(accessible);
         }
 
+        //Spring scan
+        ClassPathBeanDefinitionScanner scanner=new ClassPathBeanDefinitionScanner((DefaultListableBeanFactory)applicationContext.getAutowireCapableBeanFactory());
+        scanner.scan(getLoadedPackages());
+
+        return result;
+    }
+
+    /**
+     * Get the package name loaded.
+     *
+     * @return the package name loaded
+     */
+    public String[] getLoadedPackages()
+    {
+        String[] result=new String[loadedPackages.size()];
+        int i=0;
+        for(String name:loadedPackages)
+        {
+            result[i]=name;
+            i++;
+        }
         return result;
     }
 
@@ -165,7 +193,7 @@ public class ScanUtils
                 //jar
                 if(fileName.endsWith(LibraKey.FILE_SUFFIX_JAR.toString()))
                 {
-                    scanJarPackage(directoryOrFile, result);
+                    scanJarPackage(directoryOrFile,result);
                 }
             }
         }
@@ -202,6 +230,7 @@ public class ScanUtils
                     .replace("/",".")
                     .replace(LibraKey.FILE_SUFFIX_CLASS.toString(),"");
             result.put(name,classLoader.loadClass(name));
+            loadedPackages.add(name.substring(0,name.lastIndexOf(".")));
         }
 
         return result;
@@ -232,9 +261,10 @@ public class ScanUtils
         {
             Class clazz=Class.forName(className);
             //Exclude interface and annotation
-            if(!clazz.isInterface()&&!clazz.isAnnotation())
+            if(!clazz.isInterface() && !clazz.isAnnotation())
             {
                 result.put(classFile.getName().replace(LibraKey.FILE_SUFFIX_CLASS.toString(),""),clazz);
+                loadedPackages.add(className.substring(0,className.lastIndexOf(".")));
             }
         }
 

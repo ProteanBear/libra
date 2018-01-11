@@ -215,6 +215,16 @@ public class ScheduleJobUtils
     }
 
     /**
+     * Get the job task utils object.
+     *
+     * @return the job task utils object
+     */
+    public JobTaskUtils getJobTaskUtils()
+    {
+        return jobTaskUtils;
+    }
+
+    /**
      * Generate a task unique name.
      *
      * @param taskId  The configuration id

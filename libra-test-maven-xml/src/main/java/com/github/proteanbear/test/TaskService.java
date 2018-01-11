@@ -52,13 +52,4 @@ public class TaskService
             e.printStackTrace();
         }
     }
-
-    /**
-     * Task hello
-     * @return
-     */
-    public String hello()
-    {
-        return "Hello,Libra!";
-    }
 }

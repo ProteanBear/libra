@@ -60,7 +60,7 @@ public class TestLongTimeRunTask
     @JobTaskExecute
     public void execute() throws InterruptedException
     {
-        logger.info("Task [task_test_run]:Start!"+service.hello());
+        logger.info("Task [task_test_run]:Start1!"+service.hello());
 
         Thread.sleep(10000);
         logger.info("Task [task_test_run]:Data "+this.toString());
