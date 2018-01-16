@@ -7,6 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.AutowireCapableBeanFactory;
+import org.springframework.context.ApplicationContext;
 
 /**
  * Generic stateless task,
@@ -29,6 +30,12 @@ public class QuartzJobDispatcher extends AbstractQuartzJobDispatcher implements 
     private AutowireCapableBeanFactory capableBeanFactory;
 
     /**
+     * The application context
+     */
+    @Autowired
+    private ApplicationContext applicationContext;
+
+    /**
      * Get the log object
      *
      * @return the log object
@@ -49,6 +56,14 @@ public class QuartzJobDispatcher extends AbstractQuartzJobDispatcher implements 
     {
         return capableBeanFactory;
     }
+
+    /**
+     * Get the context
+     *
+     * @return the application context
+     */
+    @Override
+    protected ApplicationContext getApplicationContext(){return applicationContext;}
 
     /**
      * Actuator

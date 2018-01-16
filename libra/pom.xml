@@ -22,6 +22,7 @@
         <!-- Add -->
         <version_quartz>2.3.0</version_quartz>
         <version_spring>5.0.0.RELEASE</version_spring>
+        <version_dubbo>2.5.8</version_dubbo>
     </properties>
 
     <!-- Project Information -->
@@ -113,6 +114,14 @@
             <groupId>org.springframework</groupId>
             <artifactId>spring-tx</artifactId>
             <version>${version_spring}</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <!-- dubbo -->
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>dubbo</artifactId>
+            <version>${version_dubbo}</version>
             <scope>provided</scope>
         </dependency>
 
