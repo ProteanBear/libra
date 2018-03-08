@@ -92,13 +92,12 @@ public class ScheduleJobUtils
         String name=key(jobConfig.getTaskId(),jobConfig.getTaskKey());
         String group=jobTaskBean.getGroup();
         Integer status=jobConfig.getTaskStatus();
-        String cron=jobConfig.getTaskCron();
         boolean concurrent=jobTaskBean.isConcurrent();
 
         //Build the task
         Scheduler scheduler=schedulerFactoryBean.getScheduler();
         TriggerKey triggerKey=TriggerKey.triggerKey(name,group);
-        CronTrigger trigger=(CronTrigger)scheduler.getTrigger(triggerKey);
+        Trigger trigger=scheduler.getTrigger(triggerKey);
 
         //The task already exists, then delete the task first
         if(trigger!=null)
@@ -116,9 +115,8 @@ public class ScheduleJobUtils
         jobDetail.getJobDataMap().putAll(jobConfig.getJobDataMap());
 
         //Create a timer
-        CronScheduleBuilder scheduleBuilder=CronScheduleBuilder.cronSchedule(cron);
         trigger=TriggerBuilder.newTrigger().withIdentity(name,group)
-                .withSchedule(scheduleBuilder).build();
+                .withSchedule(jobConfig.scheduleBuilder()).build();
 
         //Add tasks to the schedule
         scheduler.scheduleJob(jobDetail,trigger);
