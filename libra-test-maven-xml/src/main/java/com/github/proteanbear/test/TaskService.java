@@ -33,7 +33,9 @@ public class TaskService
         //Task Construct
         TaskConfigBean config=new TaskConfigBean();
         config.setTaskKey("task_test_run");
-        config.setTaskCron("0 0/1 * * * ? ");
+//        config.setTaskCron("0 0/1 * * * ? ");
+        config.setTaskInterval(10);
+        config.setTaskIntervalType(TaskConfigBean.IntervalType.SECOND);
         config.getJobDataMap().put("title","Test task title");
         config.getJobDataMap().put("count",2);
         config.getJobDataMap().put("runTime",new Date());

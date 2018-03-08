@@ -2,7 +2,7 @@
 
 ## English introduction
 
-查看[中文说明]()
+查看[中文说明](https://github.com/ProteanBear/libra#%E4%B8%AD%E6%96%87%E8%AF%B4%E6%98%8E)
 
 ### Libra Introduction
 
@@ -309,7 +309,7 @@ Wait a minute, you can see the results of the task run!
 
 ## 中文说明
 
-To [English introduction]().
+To [English introduction](https://github.com/ProteanBear/libra#english-introduction).
 
 ### Libra介绍
 
