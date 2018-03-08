@@ -28,7 +28,7 @@ public class StringUtils
      */
     public static boolean isNotBlank(String string)
     {
-        return (string!=null || !"".equals(string.trim()));
+        return (string!=null&&!"".equals(string.trim()));
     }
 
     /**
