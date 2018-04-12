@@ -1,12 +1,11 @@
-package com.github.proteanbear.test;
+package xyz.proteanbear.test;
 
 import com.alibaba.dubbo.config.annotation.Reference;
-import com.github.proteanbear.libra.framework.JobTask;
-import com.github.proteanbear.libra.framework.JobTaskData;
-import com.github.proteanbear.libra.framework.JobTaskExecute;
+import xyz.proteanbear.libra.framework.JobTask;
+import xyz.proteanbear.libra.framework.JobTaskData;
+import xyz.proteanbear.libra.framework.JobTaskExecute;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;

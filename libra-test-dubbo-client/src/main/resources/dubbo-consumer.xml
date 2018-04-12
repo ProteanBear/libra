@@ -10,7 +10,7 @@
     <dubbo:consumer timeout="60000" loadbalance="random" retries="0"/>
 
     <!-- Scan annotation package path, multiple packages separated by commas, do not fill pacakge scan all the current class in the ApplicationContext -->
-    <dubbo:annotation package="com.github.proteanbear" />
+    <dubbo:annotation package="xyz.proteanbear" />
 
     <!-- Provider application information, used to calculate dependencies -->
     <dubbo:application name="consumer"  />

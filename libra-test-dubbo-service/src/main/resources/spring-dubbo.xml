@@ -8,7 +8,7 @@
         http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
 
     <!-- Scan annotation package path, multiple packages separated by commas, do not fill pacakge scan all the current class in the ApplicationContext -->
-    <dubbo:annotation package="com.github.proteanbear" />
+    <dubbo:annotation package="xyz.proteanbear" />
 
     <dubbo:provider delay="-1" timeout="60000" loadbalance="random" accesslog="dubbo.log" retries="0"/>
 

@@ -1,7 +1,7 @@
-package com.github.proteanbear.test;
+package xyz.proteanbear.test;
 
-import com.github.proteanbear.libra.framework.TaskConfigBean;
-import com.github.proteanbear.libra.utils.ScheduleJobUtils;
+import xyz.proteanbear.libra.framework.TaskConfigBean;
+import xyz.proteanbear.libra.utils.ScheduleJobUtils;
 import org.quartz.SchedulerException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

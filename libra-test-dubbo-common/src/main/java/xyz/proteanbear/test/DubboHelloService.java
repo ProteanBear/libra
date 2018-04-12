@@ -1,4 +1,4 @@
-package com.github.proteanbear.test;
+package xyz.proteanbear.test;
 
 /**
  * Dubbo welcome service.

@@ -1,6 +1,7 @@
-package com.github.proteanbear.test;
+package xyz.proteanbear.test;
 
 import com.alibaba.dubbo.config.annotation.Service;
+import xyz.proteanbear.test.DubboHelloService;
 
 /**
  * Dubbo welcome service.
