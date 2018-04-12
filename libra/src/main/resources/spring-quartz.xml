@@ -15,7 +15,7 @@
     </bean>
 
     <!-- With a custom JobFactory, you can inject a Spring-related job into your job -->
-    <bean id="jobFactory" class="com.github.proteanbear.libra.framework.AutowiringSpringBeanJobFactory">
+    <bean id="jobFactory" class="xyz.proteanbear.libra.framework.AutowiringSpringBeanJobFactory">
     </bean>
 
     <!-- Task scheduling factory -->
@@ -32,6 +32,6 @@
     </bean>
 
     <!-- Custom task annotation management tools -->
-    <bean id="jobTaskUtils" class="com.github.proteanbear.libra.utils.JobTaskUtils"></bean>
+    <bean id="jobTaskUtils" class="xyz.proteanbear.libra.utils.JobTaskUtils"></bean>
 
 </beans>
